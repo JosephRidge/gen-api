@@ -84,17 +84,26 @@ def receive_generator_data(request):
                         pass
                 mapped_data[field] = val
 
-            generator_data = NewGeneratorData(**mapped_data)
-            generator_data.save()
+            # generator_data = NewGeneratorData(**mapped_data)
+            # generator_data.save()
 
-            serializer = NewGeneratorDataSerializer(generator_data)
-            saved_records.append({register_name: serializer.data})
+            # serializer = NewGeneratorDataSerializer(generator_data)
+            # saved_records.append({register_name: serializer.data})
+            print(f"Mapped data for {register_name}: {mapped_data}")
+
+            try:
+                generator_data = NewGeneratorData(**mapped_data)
+                generator_data.save()
+                serializer = NewGeneratorDataSerializer(generator_data)
+                saved_records.append({register_name: serializer.data})
+            except Exception as save_error:
+                print(f"Failed to save data for {register_name}: {save_error}")
 
         return Response({'saved': saved_records}, status=status.HTTP_201_CREATED)
 
     except Exception as e:
         return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
-        
+
 # @api_view(['POST'])
 # def receive_generator_data(request):
 #     try:

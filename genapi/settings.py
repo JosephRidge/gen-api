@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-xgmqzl&_7^i+96zu)fx1t!-$wxbfgieao@gjudfl+z)ga=r!(n
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['https://gen-api-xxpm.onrender.com']
 
 
 # Application definition
@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'base.apps.BaseConfig',
      'rest_framework',
 ]
+
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

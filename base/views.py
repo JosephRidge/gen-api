@@ -59,19 +59,27 @@ def receive_generator_data(request):
             ('network_shutdown_modbus_command', 1, {0: 'Inactive', 1: 'Active'}),
         ]
 
-        all_data = request.data.get('data', {})
+        # Get the data directly from request.data
+        all_data = request.data
         if not isinstance(all_data, dict):
             return Response({'error': 'Data must be a dictionary of register arrays.'}, status=status.HTTP_400_BAD_REQUEST)
 
         saved_records = []
 
+        # Process each array in the data
         for register_name, data_array in all_data.items():
-            if not isinstance(data_array, list) or len(data_array) != len(field_map):
-                return Response({'error': f'Invalid array for {register_name}.'}, status=status.HTTP_400_BAD_REQUEST)
+            if not isinstance(data_array, list):
+                print(f"Skipping {register_name}: not a list")
+                continue
 
             mapped_data = {}
-
+            
+            # Map the values to their corresponding fields
             for idx, (field, multiplier, enum_dict) in enumerate(field_map):
+                if idx >= len(data_array):
+                    print(f"Warning: {register_name} array too short, skipping remaining fields")
+                    break
+                    
                 val = data_array[idx]
                 try:
                     val = float(val) * multiplier
@@ -84,24 +92,19 @@ def receive_generator_data(request):
                         pass
                 mapped_data[field] = val
 
-            # generator_data = NewGeneratorData(**mapped_data)
-            # generator_data.save()
-
-            # serializer = NewGeneratorDataSerializer(generator_data)
-            # saved_records.append({register_name: serializer.data})
-            print(f"Mapped data for {register_name}: {mapped_data}")
-
             try:
                 generator_data = NewGeneratorData(**mapped_data)
                 generator_data.save()
                 serializer = NewGeneratorDataSerializer(generator_data)
                 saved_records.append({register_name: serializer.data})
+                print(f"Successfully saved data for {register_name}")
             except Exception as save_error:
                 print(f"Failed to save data for {register_name}: {save_error}")
 
         return Response({'saved': saved_records}, status=status.HTTP_201_CREATED)
 
     except Exception as e:
+        print(f"Error in receive_generator_data: {str(e)}")
         return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
 # @api_view(['POST'])

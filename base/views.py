@@ -70,14 +70,14 @@ def receive_generator_data(request):
                 ('start_attempts', 1, None)
             ],
             "array_[xi]": [
-                ('Utility L1-N RMS Voltage', 1, None),
-                ('Utility L2-N RMS Voltage', 1, None),
-                ('Utility L3-N RMS Voltage', 1, None)
+                ('utility_l1_n_rms_voltage', 1, None),
+                ('utility_l2_n_rms_voltage', 1, None),
+                ('utility_l3_n_rms_voltage', 1, None)
             ],
             "array_[xii]": [
-                ('Utility L1-L2 RMS Voltage', 1, None),
-                ('Utility L2-L3 RMS Voltage', 1, None),
-                ('Utility L3-L1 RMS Voltage', 1, None)
+                ('utility_l1_l2_rms_voltage', 1, None),
+                ('utility_l2_l3_rms_voltage', 1, None),
+                ('utility_l3_l1_rms_voltage', 1, None)
             ],
             "array_[xiv]": [
                 ('charging_alternator_voltage', 0.1, None)

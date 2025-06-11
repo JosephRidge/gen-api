@@ -1,0 +1,25 @@
+services:
+  - type: web
+    name: gen-api
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn genapi.wsgi:application
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.9.0
+      - key: DATABASE_URL
+        fromDatabase:
+          name: genapi-db
+          property: connectionString
+      - key: SECRET_KEY
+        generateValue: true
+      - key: WEB_CONCURRENCY
+        value: 4
+      - key: DJANGO_SETTINGS_MODULE
+        value: genapi.settings
+
+databases:
+  - name: genapi-db
+    databaseName: genapi_db
+    user: genapi_user
+    plan: free 

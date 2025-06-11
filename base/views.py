@@ -6,7 +6,8 @@ from .serializers import NewGeneratorDataSerializer
 from django.http import HttpResponse
 from django.utils import timezone
 import csv
- 
+from datetime import datetime
+
 
 @api_view(['POST'])
 def receive_generator_data(request):
@@ -164,16 +165,45 @@ def receive_generator_data(request):
 
 @api_view(['GET'])
 def generator_data_csv(request):
-    # Get all data ordered by timestamp
-    queryset = NewGeneratorData.objects.all().order_by('-timestamp')
-    response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="generator_data_all.csv"'
-    writer = csv.writer(response)
-    fields = [f.name for f in NewGeneratorData._meta.fields]
-    writer.writerow(fields)
-    for obj in queryset:
-        writer.writerow([getattr(obj, f) for f in fields])
-    return response
+    try:
+        # Get all data ordered by timestamp
+        queryset = NewGeneratorData.objects.all().order_by('-timestamp')
+        
+        if not queryset.exists():
+            return Response({'error': 'No data available'}, status=status.HTTP_404_NOT_FOUND)
+            
+        response = HttpResponse(content_type='text/csv')
+        response['Content-Disposition'] = 'attachment; filename="generator_data_all.csv"'
+        
+        # Create CSV writer
+        writer = csv.writer(response)
+        
+        # Get all field names
+        fields = [f.name for f in NewGeneratorData._meta.fields]
+        
+        # Write header row
+        writer.writerow(fields)
+        
+        # Write data rows
+        for obj in queryset:
+            row = []
+            for field in fields:
+                value = getattr(obj, field)
+                # Format datetime objects
+                if isinstance(value, datetime):
+                    value = value.strftime('%Y-%m-%d %H:%M:%S')
+                # Round float values to 1 decimal place
+                elif isinstance(value, float):
+                    value = round(value, 1)
+                row.append(value)
+            writer.writerow(row)
+            
+        print(f"CSV download: {queryset.count()} records exported")  # Debug log
+        return response
+        
+    except Exception as e:
+        print(f"Error in CSV generation: {str(e)}")  # Debug log
+        return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 @api_view(['GET'])
 def get_latest_generator_data(request):

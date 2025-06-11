@@ -26,50 +26,51 @@ def receive_generator_data(request):
                 ('current_fault_severity', 1, {0: 'None', 1: 'Warning', 2: 'Shutdown'})
             ],
             "array_[iii]": [
-                ('genset_l1_n_rms_voltage', 1, None),
-                ('genset_l2_n_rms_voltage', 1, None),
-                ('genset_l3_n_rms_voltage', 1, None)
+                ('genset_l1_n_rms_voltage', 0.1, None),
+                ('genset_l2_n_rms_voltage', 0.1, None),
+                ('genset_l3_n_rms_voltage', 0.1, None)
             ],
             "array_[iv]": [
-                ('genset_l1_l2_rms_voltage', 1, None),
-                ('genset_l2_l3_rms_voltage', 1, None),
-                ('genset_l3_l1_rms_voltage', 1, None)
+                ('genset_l1_l2_rms_voltage', 0.1, None),
+                ('genset_l2_l3_rms_voltage', 0.1, None),
+                ('genset_l3_l1_rms_voltage', 0.1, None)
             ],
             "array_[v]": [
-                ('genset_l1_rms_current', 1, None),
-                ('genset_l2_rms_current', 1, None),
-                ('genset_l3_rms_current', 1, None)
+                ('genset_l1_rms_current', 0.1, None),
+                ('genset_l2_rms_current', 0.1, None),
+                ('genset_l3_rms_current', 0.1, None)
             ],
             "array_[vi]": [
-                ('genset_l1_kw', 1, None),
-                ('genset_l2_kw', 1, None),
-                ('genset_l3_kw', 1, None)
+                ('genset_l1_kw', 0.1, None),
+                ('genset_l2_kw', 0.1, None),
+                ('genset_l3_kw', 0.1, None),
+                ('genset_total_kw', 0.1, None),
+                ('genset_l1_kvar', 0.1, None),
+                ('genset_l2_kvar', 0.1, None)
             ],
             "array_[vii]": [
-                ('genset_total_kw', 1, None),
-                ('genset_l1_kvar', 1, None),
-                ('genset_l2_kvar', 1, None)
+                
             ],
             "array_[viii]": [
-                ('genset_l3_kvar', 1, None),
-                ('genset_total_kvar', 1, None)
+                ('genset_l3_kvar', 0.1, None),
+                ('genset_total_kvar', 0.1, None)
             ],
             "array_[ix]": [
-                ('genset_l1_kva', 1, None)
+                ('genset_l1_kva', 0.1, None)
             ],
             "array_[x]": [
-                ('genset_l2_kva', 1, None),
-                ('genset_l3_kva', 1, None),
-                ('genset_total_kva', 1, None)
+                ('genset_l2_kva', 0.1, None),
+                ('genset_l3_kva', 0.1, None),
+                ('genset_total_kva', 0.1, None)
             ],
             "array_[xi]": [
                 ('genset_frequency', 0.01, None),
-                ('battery_voltage', 0.001, None),
+                ('battery_voltage', 0.1, None),
                 ('oil_pressure', 0.1, None)
             ],
             "array_[xii]": [
                 ('coolant_temperature', 0.1, None),
-                ('average_engine_speed', 0.125, None),
+                ('average_engine_speed', 1, None),
                 ('start_attempts', 1, None)
             ],
             "array_[xiv]": [
@@ -78,7 +79,7 @@ def receive_generator_data(request):
             "array_[xv]": [
                 ('modbus_fault_reset', 1, {0: 'Inactive', 1: 'Active'}),
                 ('network_shutdown_modbus_command', 1, {0: 'Inactive', 1: 'Active'}),
-                ('charging_alternator_voltage', 0.001, None)
+                ('charging_alternator_voltage', 0.1, None)
             ]
         }
 

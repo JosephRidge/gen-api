@@ -11,6 +11,8 @@ import csv
 @api_view(['POST'])
 def receive_generator_data(request):
     try:
+        print("Received data:", request.data)  # Debug log
+        
         # Define the field mappings for each array
         array_mappings = {
             "array_[i]": [
@@ -80,8 +82,10 @@ def receive_generator_data(request):
             ]
         }
 
-        # Get the data from request
-        all_data = request.data.get('data', {})
+        # Get the data directly from request.data
+        all_data = request.data
+        print("Received data:", all_data)  # Debug log
+        
         if not isinstance(all_data, dict):
             return Response({'error': 'Data must be a dictionary of register arrays.'}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -90,6 +94,8 @@ def receive_generator_data(request):
 
         # Process each array in the data
         for array_name, data_array in all_data.items():
+            print(f"Processing array {array_name}: {data_array}")  # Debug log
+            
             if array_name not in array_mappings:
                 print(f"Skipping unknown array: {array_name}")
                 continue
@@ -108,16 +114,25 @@ def receive_generator_data(request):
                     break
                     
                 val = data_array[idx]
+                print(f"Processing value {val} for field {field}")  # Debug log
+                
                 try:
                     val = float(val) * multiplier
-                except Exception:
+                except Exception as e:
+                    print(f"Error converting value {val} to float: {e}")  # Debug log
                     pass
+                    
                 if enum_dict is not None:
                     try:
                         val = enum_dict.get(int(data_array[idx]), val)
-                    except Exception:
+                    except Exception as e:
+                        print(f"Error mapping enum value {val}: {e}")  # Debug log
                         pass
+                        
                 mapped_data[field] = val
+                print(f"Mapped {field} to {val}")  # Debug log
+
+        print("Final mapped data:", mapped_data)  # Debug log
 
         try:
             # Create and save the generator data

@@ -169,7 +169,11 @@ def generator_data_csv(request):
         # Get all data ordered by timestamp
         queryset = NewGeneratorData.objects.all().order_by('-timestamp')
         
+        # Debug logging
+        print(f"Total records in database: {queryset.count()}")
+        
         if not queryset.exists():
+            print("No data found in database")
             return Response({'error': 'No data available'}, status=status.HTTP_404_NOT_FOUND)
             
         response = HttpResponse(content_type='text/csv')
@@ -180,11 +184,13 @@ def generator_data_csv(request):
         
         # Get all field names
         fields = [f.name for f in NewGeneratorData._meta.fields]
+        print(f"CSV fields: {fields}")
         
         # Write header row
         writer.writerow(fields)
         
-        # Write data rows
+        # Write data rows with detailed logging
+        record_count = 0
         for obj in queryset:
             row = []
             for field in fields:
@@ -197,12 +203,27 @@ def generator_data_csv(request):
                     value = round(value, 1)
                 row.append(value)
             writer.writerow(row)
+            record_count += 1
             
-        print(f"CSV download: {queryset.count()} records exported")  # Debug log
+            # Log every 100 records
+            if record_count % 100 == 0:
+                print(f"Processed {record_count} records")
+        
+        print(f"CSV download complete: {record_count} records exported")
+        
+        # Verify the response content
+        content_length = len(response.content)
+        print(f"Response content length: {content_length} bytes")
+        
+        if content_length < 100:  # If content is too small, it might be empty
+            print("Warning: Response content seems too small")
+            return Response({'error': 'CSV generation failed - empty content'}, 
+                          status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            
         return response
         
     except Exception as e:
-        print(f"Error in CSV generation: {str(e)}")  # Debug log
+        print(f"Error in CSV generation: {str(e)}")
         return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 @api_view(['GET'])

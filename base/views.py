@@ -46,40 +46,47 @@ def receive_generator_data(request):
                 ('genset_l3_kw', 0.1, None),
                 ('genset_total_kw', 0.1, None),
                 ('genset_l1_kvar', 0.1, None),
-                ('genset_l2_kvar', 0.1, None)
-            ],
-            "array_[vii]": [
-                
-            ],
-            "array_[viii]": [
+                ('genset_l2_kvar', 0.1, None),
                 ('genset_l3_kvar', 0.1, None),
                 ('genset_total_kvar', 0.1, None)
             ],
-            "array_[ix]": [
-                ('genset_l1_kva', 0.1, None)
-            ],
-            "array_[x]": [
+            "array_[vii]": [
+                ('genset_l1_kva', 0.1, None),
                 ('genset_l2_kva', 0.1, None),
                 ('genset_l3_kva', 0.1, None),
-                ('genset_total_kva', 0.1, None)
-            ],
-            "array_[xi]": [
-                ('genset_frequency', 0.01, None),
+                ('genset_total_kva', 0.1, None),
+                ('genset_frequency', 0.01, None)
+
+                 ],
+            "array_[viii]": [
                 ('battery_voltage', 0.1, None),
                 ('oil_pressure', 0.1, None)
             ],
-            "array_[xii]": [
-                ('coolant_temperature', 0.1, None),
+            "array_[ix]": [
+               ('coolant_temperature', 0.1, None)
+            ],
+            "array_[x]": [
                 ('average_engine_speed', 1, None),
                 ('start_attempts', 1, None)
             ],
+            "array_[xi]": [
+                ('Utility L1-N RMS Voltage', 1, None),
+                ('Utility L2-N RMS Voltage', 1, None),
+                ('Utility L3-N RMS Voltage', 1, None)
+            ],
+            "array_[xii]": [
+                ('Utility L1-L2 RMS Voltage', 1, None),
+                ('Utility L2-L3 RMS Voltage', 1, None),
+                ('Utility L3-L1 RMS Voltage', 1, None)
+            ],
             "array_[xiv]": [
-                ('modbus_remote_start', 1, {0: 'Inactive', 1: 'Active'})
+                ('charging_alternator_voltage', 0.1, None)
             ],
             "array_[xv]": [
+                ('modbus_remote_start', 1, {0: 'Inactive', 1: 'Active'}),
                 ('modbus_fault_reset', 1, {0: 'Inactive', 1: 'Active'}),
                 ('network_shutdown_modbus_command', 1, {0: 'Inactive', 1: 'Active'}),
-                ('charging_alternator_voltage', 0.1, None)
+                
             ]
         }
 

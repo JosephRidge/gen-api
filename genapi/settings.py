@@ -28,10 +28,10 @@ DEBUG = False
 
 ALLOWED_HOSTS = ['gen-api-xxpm.onrender.com', '127.0.0.1']
 
-# Add these settings for better deployment stability
-SECURE_SSL_REDIRECT = True
-SESSION_COOKIE_SECURE = True
-CSRF_COOKIE_SECURE = True
+# Comment out SSL settings temporarily
+# SECURE_SSL_REDIRECT = True
+# SESSION_COOKIE_SECURE = True
+# CSRF_COOKIE_SECURE = True
 SECURE_BROWSER_XSS_FILTER = True
 SECURE_CONTENT_TYPE_NOSNIFF = True
 X_FRAME_OPTIONS = 'DENY'
@@ -144,20 +144,11 @@ USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/5.2/howto/static-files/
-
 STATIC_URL = '/static/'
-
-# STATIC_ROOT is where Django collects all static files into (for production)
 STATIC_ROOT = BASE_DIR / "staticfiles"
 
-# STATICFILES_DIRS is where you put your *source* static files (optional)
-STATICFILES_DIRS = [
-    BASE_DIR / "static",  # Make sure this directory exists!
-]   
-
-# Enable WhiteNoise compression and caching
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+# Use a simpler static files storage
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field

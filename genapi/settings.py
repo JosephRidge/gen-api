@@ -128,10 +128,9 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # CORS settings
-CORS_ALLOW_ALL_ORIGINS = False  # Disable allowing all origins for security
+CORS_ALLOW_ALL_ORIGINS = False
 CORS_ALLOWED_ORIGINS = [
-    "https://*.firebaseapp.com",  # Allow all Firebase hosting domains
-    "https://*.web.app",         # Allow all Firebase web app domains
+    "https://generator-monitor-io.web.app",  # Your specific Firebase domain
     "http://localhost:3000",     # For local development
     "http://127.0.0.1:3000",     # For local development
 ]

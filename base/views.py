@@ -161,12 +161,10 @@ def receive_generator_data(request):
 
 @api_view(['GET'])
 def generator_data_csv(request):
-    days = int(request.GET.get('days', 1))
-    days = min(max(days, 1), 30)  # Clamp between 1 and 30
-    since = timezone.now() - timezone.timedelta(days=days)
-    queryset = NewGeneratorData.objects.filter(timestamp__gte=since).order_by('-timestamp')
+    # Get all data ordered by timestamp
+    queryset = NewGeneratorData.objects.all().order_by('-timestamp')
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = f'attachment; filename="generator_data_last_{days}_days.csv"'
+    response['Content-Disposition'] = 'attachment; filename="generator_data_all.csv"'
     writer = csv.writer(response)
     fields = [f.name for f in NewGeneratorData._meta.fields]
     writer.writerow(fields)

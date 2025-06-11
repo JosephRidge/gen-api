@@ -126,6 +126,9 @@ def receive_generator_data(request):
                 
                 try:
                     val = float(val) * multiplier
+                    # Round numeric values to 1 decimal place
+                    if isinstance(val, (int, float)) and not isinstance(val, bool):
+                        val = round(val, 1)
                 except Exception as e:
                     print(f"Error converting value {val} to float: {e}")  # Debug log
                     pass
